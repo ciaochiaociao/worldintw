@@ -15,7 +15,7 @@ function worldintw_add_admin_page() {
 	add_menu_page('World In TW Options', '譯世界委員會', 'manage_options', 'worldintw', 'worldintw_theme_create_page', get_template_directory_uri() . '/img/logo.svg', 110 );
 		// add_menu_page( $page_title, $menu_title, $capability, $menu_slug, $function = '', $icon_url = '', $position = null )
 	// Add 譯世界委員會 subpage
-	add_submenu_page( 'worldintw', 'Sidebar Options', 'Sidebar', 'manage_options', 'worldintw', 'worldintw_theme_create_page' );
+	add_submenu_page( 'worldintw', 'Sidebar Options', 'Sidebar', 'manage_options', 'worldintw', 'worldintw_theme_create_page' ); // Assign the submenu slug/function to the menu slug/function for making default submenu page
 	add_submenu_page( 'worldintw', 'World In TW CSS', 'Custom CSS', 'manage_options', 'worldintw_css', 'worldintw_theme_css_page' );
 	add_submenu_page( 'worldintw', 'Theme Support Options', 'Theme Support', 'manage_options', 'worldintw_theme_support', 'worldintw_theme_support_page' );
 		// add_submenu_page( $parent_slug, $page_title, $menu_title, $capability, $menu_slug, $function = '' )
@@ -52,12 +52,28 @@ function worldintw_custom_settings() {
 
 	// Theme Support Setting
 	register_setting( 'worldintw-theme-support-options-group', 'post_formats', 'worldintw_post_formats_callback' );
-
+	add_settings_section( 'worldintw-theme-options', 'Theme Options', 'worldintw_theme_options', 'worldintw_theme_support' );
+	add_settings_field( 'post-formats', 'Post Formats', 'worldintw_post_formats', 'worldintw_theme_support', 'worldintw-theme-options' );
 }
 
 // Post Formats Callback Function
-function worldintw_post_formats_callback() {
+function worldintw_post_formats_callback($input) {
+	return $input;
+}
 
+function worldintw_theme_options() {
+	echo 'Activate and deactivate post format options';
+}
+
+function worldintw_post_formats() {
+	$postFormats = get_option( 'post_formats' );
+	$formats = array( 'aside', 'gallery', 'link', 'image', 'quote', 'status', 'video', 'audio', 'chat' );
+	$output = '';
+	foreach($formats as $format){
+		$checked = ( @$postFormats[$format] == 1? 'checked':'' );
+		$output .= '<label><input type="checkbox" class="post_formats" name="post_formats['. $format .']" '. $checked .' value=1 />' . $format . '</label><br>';
+	}
+	echo $output;
 }
 
 
