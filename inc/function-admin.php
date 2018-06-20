@@ -51,14 +51,13 @@ function worldintw_custom_settings() {
 		// add_settings_field( $id, $title, $callback, $page, $section = 'default', $args = array )
 
 	// Theme Support Setting
-	register_setting( 'worldintw-theme-support-options-group', 'post_formats', 'worldintw_post_formats_callback' );
+	register_setting( 'worldintw-theme-support-options-group', 'post_formats' );
+	register_setting( 'worldintw-theme-support-options-group', 'custom_header' );
+	register_setting( 'worldintw-theme-support-options-group', 'custom_background' );
 	add_settings_section( 'worldintw-theme-options', 'Theme Options', 'worldintw_theme_options', 'worldintw_theme_support' );
 	add_settings_field( 'post-formats', 'Post Formats', 'worldintw_post_formats', 'worldintw_theme_support', 'worldintw-theme-options' );
-}
-
-// Post Formats Callback Function
-function worldintw_post_formats_callback($input) {
-	return $input;
+	add_settings_field( 'custom-header', 'Custom Header', 'worldintw_custom_header', 'worldintw_theme_support', 'worldintw-theme-options' );
+	add_settings_field( 'custom-background', 'Custom Background', 'worldintw_custom_background', 'worldintw_theme_support', 'worldintw-theme-options' );
 }
 
 function worldintw_theme_options() {
@@ -76,6 +75,17 @@ function worldintw_post_formats() {
 	echo $output;
 }
 
+function worldintw_custom_header() {
+	$option = get_option( 'custom_header' );
+	$checked = ( @$option == 1? 'checked':'' );
+	echo '<input type="checkbox" class="custom_header" name="custom_header" '. $checked .' value=1 /><br>';
+}
+
+function worldintw_custom_background() {
+	$option = get_option( 'custom_background' );
+	$checked = ( @$option == 1? 'checked':'' );
+	echo '<input type="checkbox" class="custom_background" name="custom_background" '. $checked .' value=1 /><br>';
+}
 
 function worldintw_sidebar_options() {
 	echo 'Customize your theme!';
@@ -83,9 +93,16 @@ function worldintw_sidebar_options() {
 
 function worldintw_profile_picture() {
 	$profilePicture = esc_attr( get_option( 'profile_picture' ) );
-	echo '<img id="profile-picture-preview" width="200px" src='. $profilePicture .'></img><br>';
-	echo '<input type="button" class="button button-secondary" id="upload-button" value="Choose Your Picture"/>';
-	echo '<input id="profile-picture" type="hidden" name="profile_picture" value="'. $profilePicture .'"/>';
+	if (empty($profilePicture)){
+		echo '<input type="button" class="button button-secondary" id="upload-button" value="Choose Your Picture"/>
+		<input id="profile-picture" type="hidden" name="profile_picture" value=""/><br>';
+	} else {
+		echo '<input type="button" class="button button-secondary" id="upload-button" value="Replace Your Picture"/>
+		<input id="profile-picture" type="hidden" name="profile_picture" value="'. $profilePicture .'"/>
+		<input type="button" class="button button-secondary" id="remove-button" value="Remove"/><br>';
+	}
+	echo '<img id="profile-picture-preview" width="200px" style="padding-top:10px;" src='. $profilePicture .'></img>';
+	
 }
 
 function worldintw_name() {

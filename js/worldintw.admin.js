@@ -35,4 +35,15 @@ jQuery(document).ready( function($) {
 
 		frame.open();
 	});
+
+	// Remove Profile Picture Button
+	$('#remove-button').on('click', function(e) {
+		e.preventDefault();
+		var answer = confirm('Are you sure to remove picture?');
+		if (answer == true){
+			$('#profile-picture').val('');
+			$('.worldintw-general-form').submit();
+		}
+	});
+
 });

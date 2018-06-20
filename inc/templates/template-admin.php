@@ -28,7 +28,7 @@
 	// show setting sections of page 'worldintw'
 	do_settings_sections( 'worldintw' ); //do_settings_sections( $page )
 
-	submit_button();
+	submit_button( 'Save Changes', 'primary', 'btnSubmit' );
 ?>
 </form>
 
