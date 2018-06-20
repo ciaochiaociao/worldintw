@@ -17,6 +17,7 @@ function worldintw_add_admin_page() {
 	// Add 譯世界委員會 subpage
 	add_submenu_page( 'worldintw', 'Sidebar Options', 'Sidebar', 'manage_options', 'worldintw', 'worldintw_theme_create_page' ); // Assign the submenu slug/function to the menu slug/function for making default submenu page
 	add_submenu_page( 'worldintw', 'World In TW CSS', 'Custom CSS', 'manage_options', 'worldintw_css', 'worldintw_theme_css_page' );
+	add_submenu_page( 'worldintw', 'Custom Contact Form', 'Contact Form', 'manage_options', 'worldintw_contact_form', 'worldintw_contact_form_page' );
 	add_submenu_page( 'worldintw', 'Theme Support Options', 'Theme Support', 'manage_options', 'worldintw_theme_support', 'worldintw_theme_support_page' );
 		// add_submenu_page( $parent_slug, $page_title, $menu_title, $capability, $menu_slug, $function = '' )
 
@@ -58,6 +59,21 @@ function worldintw_custom_settings() {
 	add_settings_field( 'post-formats', 'Post Formats', 'worldintw_post_formats', 'worldintw_theme_support', 'worldintw-theme-options' );
 	add_settings_field( 'custom-header', 'Custom Header', 'worldintw_custom_header', 'worldintw_theme_support', 'worldintw-theme-options' );
 	add_settings_field( 'custom-background', 'Custom Background', 'worldintw_custom_background', 'worldintw_theme_support', 'worldintw-theme-options' );
+
+	// Contact Form
+	register_setting( 'worldintw-contact-form-options-group', 'activate_contact_form' );
+	add_settings_section( 'worldintw-contact-form-section', 'Contact Form Options', 'worldintw_contact_form_options', 'worldintw_contact_form' );
+	add_settings_field( 'activate-contact-form', 'Activate Contact Form', 'worldintw_activate_contact_form', 'worldintw_contact_form', 'worldintw-contact-form-section');
+}
+
+function worldintw_contact_form_options() {
+	echo 'Custom your contact form';
+}
+
+function worldintw_activate_contact_form() {
+	$option = get_option( 'activate_contact_form' );
+	$checked = ( @$option == 1? 'checked':'' );
+	echo '<input type="checkbox" name="activate_contact_form" '. $checked .' value=1 /><br>';
 }
 
 function worldintw_theme_options() {
@@ -70,7 +86,7 @@ function worldintw_post_formats() {
 	$output = '';
 	foreach($formats as $format){
 		$checked = ( @$postFormats[$format] == 1? 'checked':'' );
-		$output .= '<label><input type="checkbox" class="post_formats" name="post_formats['. $format .']" '. $checked .' value=1 />' . $format . '</label><br>';
+		$output .= '<label><input type="checkbox" name="post_formats['. $format .']" '. $checked .' value=1 />' . $format . '</label><br>';
 	}
 	echo $output;
 }
@@ -78,13 +94,13 @@ function worldintw_post_formats() {
 function worldintw_custom_header() {
 	$option = get_option( 'custom_header' );
 	$checked = ( @$option == 1? 'checked':'' );
-	echo '<input type="checkbox" class="custom_header" name="custom_header" '. $checked .' value=1 /><br>';
+	echo '<input type="checkbox" name="custom_header" '. $checked .' value=1 /><br>';
 }
 
 function worldintw_custom_background() {
 	$option = get_option( 'custom_background' );
 	$checked = ( @$option == 1? 'checked':'' );
-	echo '<input type="checkbox" class="custom_background" name="custom_background" '. $checked .' value=1 /><br>';
+	echo '<input type="checkbox" name="custom_background" '. $checked .' value=1 /><br>';
 }
 
 function worldintw_sidebar_options() {
@@ -149,5 +165,8 @@ function worldintw_theme_support_page() {
 	require_once( get_template_directory() . '/inc/templates/template-theme-support.php' );
 }
 
+function worldintw_contact_form_page() {
+	require_once( get_template_directory() . '/inc/templates/template-contact-form.php' );
+}
 
 ?>
