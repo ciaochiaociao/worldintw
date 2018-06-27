@@ -8,18 +8,28 @@ ADMIN ENQUEUE SCRIPTS
 =============
 
 */
+// wp_register_script( $handle, $src, $deps = array, $ver = false, $in_footer = false )
+// wp_register_style( $handle, $src, $deps = array, $ver = false, $media = 'all' )
 
 function worldintw_enqueue_admin_scripts( $hook ) {
+	// var_dump(urlencode(bloginfo( 'name' )) . '_page_worldintw_css');
+	if ($hook == 'toplevel_page_worldintw') {
 
-	if ($hook != 'toplevel_page_worldintw') return;
+		wp_register_style( 'worldintw_admin_css', get_template_directory_uri() . '/css/worldintw.admin.css', array(), '1.0.0', 'all' );
 
-	wp_register_style( 'worldintw_admin_css', get_template_directory_uri() . '/css/worldintw.admin.css', array(), '1.0.0', 'all' );
-	wp_enqueue_style( 'worldintw_admin_css' );
+		wp_enqueue_style( 'worldintw_admin_css' );
 
-	wp_register_script( 'worldintw_admin_js', get_template_directory_uri() . '/js/worldintw.admin.js', array('jquery'), '1.0.0', true );
-	wp_enqueue_script( 'worldintw_admin_js' );
+		wp_register_script( 'worldintw_admin_js', get_template_directory_uri() . '/js/worldintw.admin.js', array('jquery'), '1.0.0', true );
+		wp_enqueue_script( 'worldintw_admin_js' );
 
-	wp_enqueue_media();
+		wp_enqueue_media();
+
+	} else if ($hook == '%e8%ad%af%e4%b8%96%e7%95%8c%e5%a7%94%e5%93%a1%e6%9c%83_page_worldintw_css'){
+		error_log('Test');
+		wp_enqueue_script( 'ace', get_template_directory_uri() . '/js/ace/ace.js', array(), '1.3.3', true );
+		wp_enqueue_script( 'custom_css_section_js', get_template_directory_uri() . '/js/custom_css.js', array('jquery'), '1.0.0', true );
+		wp_enqueue_style( 'custom_css_section_css', get_template_directory_uri() . '/css/custom_css.css', array(), '1.0.0', 'all');
+	}
 }
 add_action('admin_enqueue_scripts', 'worldintw_enqueue_admin_scripts');
 

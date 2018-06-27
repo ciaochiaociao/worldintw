@@ -40,8 +40,9 @@ function worldintw_contact_form_email_callback($post) {
 	echo '<input type="email" name="worldintw_contact_email_field" id="worldintw_contact_email_field" value="'.esc_attr( $value ).'"/>';
 }
 
-// Save email meta box
+// Save Email Meta Box
 function worldintw_save_contact_form_email($post_id) {
+	// Verify nonce
 	if ( !isset($_POST['worldintw_save_contact_form_email_nonce']) ){
 		return;
 	}
@@ -49,23 +50,27 @@ function worldintw_save_contact_form_email($post_id) {
 		// wp_verify_nonce( $nonce, $action = -1 )
 		return;
 	}
+
+	// Check authority
 	if ( !current_user_can( 'edit_post', $post_id )){
 		// current_user_can( $capability )
 		return;
 	}
+
+	// Don't update when wordpress auto-saves changes in post
 	if ( defined('DOING_AUTOSAVE') && DOING_AUTOSAVE){
 		return;
 	}
+
 	if ( !isset($_POST['worldintw_contact_email_field']) ){
 		return;
 	}
-	error_log($_POST['worldintw_save_contact_form_email_nonce']);
 
 	update_post_meta( $post_id, '_worldintw_contact_email_key', sanitize_text_field( $_POST['worldintw_contact_email_field'] ) );
 	// update_post_meta( $post_id, $meta_key, $meta_value, $prev_value = '' )
 }
 
-
+// Custom post column content
 function worldintw_custom_contact_columns_content($column, $post_id) {
 	switch ($column) {
 		case 'message':
@@ -80,7 +85,7 @@ function worldintw_custom_contact_columns_content($column, $post_id) {
 	}
 }
 
-// Custom post column
+// Custom post column field names
 function worldintw_custom_contact_columns($column) {
 	$newcolumn = array(
 		'title' 	=> __('Full Name', 'worldintw'),

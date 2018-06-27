@@ -16,9 +16,9 @@ function worldintw_add_admin_page() {
 		// add_menu_page( $page_title, $menu_title, $capability, $menu_slug, $function = '', $icon_url = '', $position = null )
 	// Add 譯世界委員會 subpage
 	add_submenu_page( 'worldintw', 'Sidebar Options', 'Sidebar', 'manage_options', 'worldintw', 'worldintw_theme_create_page' ); // Assign the submenu slug/function to the menu slug/function for making default submenu page
-	add_submenu_page( 'worldintw', 'World In TW CSS', 'Custom CSS', 'manage_options', 'worldintw_css', 'worldintw_theme_css_page' );
 	add_submenu_page( 'worldintw', 'Custom Contact Form', 'Contact Form', 'manage_options', 'worldintw_contact_form', 'worldintw_contact_form_page' );
 	add_submenu_page( 'worldintw', 'Theme Support Options', 'Theme Support', 'manage_options', 'worldintw_theme_support', 'worldintw_theme_support_page' );
+	add_submenu_page( 'worldintw', 'World In TW CSS', 'Custom CSS', 'manage_options', 'worldintw_css', 'worldintw_theme_css_page' );
 		// add_submenu_page( $parent_slug, $page_title, $menu_title, $capability, $menu_slug, $function = '' )
 
 	// Only load custom settings after the loading of the worldintw_add_admin_page() is successful
@@ -28,6 +28,7 @@ add_action('admin_menu', 'worldintw_add_admin_page');
 
 function worldintw_custom_settings() {
 
+	// [ Sidebar Setting]
 	// Add multiple settings with option name to option group 'worldintw-settings-group'
 	register_setting( 'worldintw-options-group', 'profile_picture' );
 	register_setting( 'worldintw-options-group', 'first_name' );
@@ -51,7 +52,7 @@ function worldintw_custom_settings() {
 	add_settings_field( 'siderbar-gplus', 'Google+ Account', 'worldintw_sidebar_gplus', 'worldintw', 'worldintw-sidebar-options' );
 		// add_settings_field( $id, $title, $callback, $page, $section = 'default', $args = array )
 
-	// Theme Support Setting
+	// [ Theme Support Setting ]
 	register_setting( 'worldintw-theme-support-options-group', 'post_formats' );
 	register_setting( 'worldintw-theme-support-options-group', 'custom_header' );
 	register_setting( 'worldintw-theme-support-options-group', 'custom_background' );
@@ -60,14 +61,34 @@ function worldintw_custom_settings() {
 	add_settings_field( 'custom-header', 'Custom Header', 'worldintw_custom_header', 'worldintw_theme_support', 'worldintw-theme-options' );
 	add_settings_field( 'custom-background', 'Custom Background', 'worldintw_custom_background', 'worldintw_theme_support', 'worldintw-theme-options' );
 
-	// Contact Form
+	// [ Contact Form Setting ]
 	register_setting( 'worldintw-contact-form-options-group', 'activate_contact_form' );
 	add_settings_section( 'worldintw-contact-form-section', 'Contact Form Options', 'worldintw_contact_form_options', 'worldintw_contact_form' );
 	add_settings_field( 'activate-contact-form', 'Activate Contact Form', 'worldintw_activate_contact_form', 'worldintw_contact_form', 'worldintw-contact-form-section');
+
+	// [ Custom CSS ]
+	register_setting( 'worldintw-theme-css-options-group', 'custom_css' );
+	add_settings_section( 'worldintw-theme-css-section', 'Custom CSS', 'worldintw_theme_css_section_callback', 'worldintw_css' );
+	add_settings_field( 'custom-css-field', 'Custom CSS', 'worldintw_custom_css_callback', 'worldintw_css', 'worldintw-theme-css-section');
+
+}
+
+function worldintw_theme_css_section_callback(){
+	_e('Customize your theme with CSS', 'worldintw');
+}
+
+function worldintw_custom_css_callback(){
+	$css = get_option('custom_css');
+	$default = '/*' . __('Input Your CSS Here', 'worldintw') . '*/';
+	$css = ( empty($css) ) ? $default : $css;
+	echo '<div id="editor">'. $css .'</div>';
+
+	// Use a hidden tag with jQuery to submit the css code in the above div.
+	echo '<textarea name="custom_css" id="submit-for-custom-css" style="visibility: hidden; display:none;" ></textarea>';
 }
 
 function worldintw_contact_form_options() {
-	echo 'Custom your contact form';
+	_e('Custom your contact form', 'worldintw');
 }
 
 function worldintw_activate_contact_form() {
@@ -77,7 +98,7 @@ function worldintw_activate_contact_form() {
 }
 
 function worldintw_theme_options() {
-	echo 'Activate and deactivate post format options';
+	_e('Activate and deactivate post format options', 'worldintw');
 }
 
 function worldintw_post_formats() {
@@ -104,7 +125,7 @@ function worldintw_custom_background() {
 }
 
 function worldintw_sidebar_options() {
-	echo 'Customize your theme!';
+	_e('Customize your theme!', 'worldintw');
 }
 
 function worldintw_profile_picture() {
@@ -157,16 +178,16 @@ function worldintw_theme_create_page() {
 	require_once( get_template_directory() . '/inc/templates/template-admin.php');
 }
 
-function worldintw_theme_css_page() {
-	echo '<h1>Custom CSS</h1>';
-}
-
 function worldintw_theme_support_page() {
 	require_once( get_template_directory() . '/inc/templates/template-theme-support.php' );
 }
 
 function worldintw_contact_form_page() {
 	require_once( get_template_directory() . '/inc/templates/template-contact-form.php' );
+}
+
+function worldintw_theme_css_page() {
+	require_once( get_template_directory() . '/inc/templates/template-theme-css.php' );
 }
 
 ?>
