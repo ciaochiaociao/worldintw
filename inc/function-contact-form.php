@@ -18,9 +18,52 @@ if ($activate == 1){
 	add_filter( 'manage_contact-post-type_posts_columns', 'worldintw_custom_contact_columns');
 	// Custom post column content shown in posts list 
 	add_action( 'manage_contact-post-type_posts_custom_column', 'worldintw_custom_contact_columns_content', 10, 2);
+	// add_action( $tag, $function_to_add, $priority = 10, $accepted_args = 1 )
 
+	// Show custom meta box: email
+	add_action( 'admin_init', 'worldintw_add_meta_box' );
+	add_action( 'save_post', 'worldintw_save_contact_form_email');
 }
 
+// Contact form meta box: email
+function worldintw_add_meta_box() {
+	add_meta_box( 'contact-form-email', 'Email Address', 'worldintw_contact_form_email_callback', 'contact-post-type', 'side', 'default');
+	// add_meta_box( $id, $title, $callback, $screen = null, $context = 'advanced', $priority = 'default', $callback_args = null )
+}
+
+function worldintw_contact_form_email_callback($post) {
+	wp_nonce_field( 'worldintw_save_contact_form_email', 'worldintw_save_contact_form_email_nonce');
+	// wp_nonce_field( $action = -1, $name = '_wpnonce', $referer = true, $echo = true )
+	$value = get_post_meta( $post->ID, '_worldintw_contact_email_key', true );
+	// get_post_meta( $post_id, $key = '', $single = false )
+	echo '<label for="worldintw_contact_email_field">' . __('User Email Address:', 'worldintw') . '</label>';
+	echo '<input type="email" name="worldintw_contact_email_field" id="worldintw_contact_email_field" value="'.esc_attr( $value ).'"/>';
+}
+
+// Save email meta box
+function worldintw_save_contact_form_email($post_id) {
+	if ( !isset($_POST['worldintw_save_contact_form_email_nonce']) ){
+		return;
+	}
+	if ( !wp_verify_nonce( $_POST['worldintw_save_contact_form_email_nonce'], 'worldintw_save_contact_form_email' ) ){
+		// wp_verify_nonce( $nonce, $action = -1 )
+		return;
+	}
+	if ( !current_user_can( 'edit_post', $post_id )){
+		// current_user_can( $capability )
+		return;
+	}
+	if ( defined('DOING_AUTOSAVE') && DOING_AUTOSAVE){
+		return;
+	}
+	if ( !isset($_POST['worldintw_contact_email_field']) ){
+		return;
+	}
+	error_log($_POST['worldintw_save_contact_form_email_nonce']);
+
+	update_post_meta( $post_id, '_worldintw_contact_email_key', sanitize_text_field( $_POST['worldintw_contact_email_field'] ) );
+	// update_post_meta( $post_id, $meta_key, $meta_value, $prev_value = '' )
+}
 
 
 function worldintw_custom_contact_columns_content($column, $post_id) {
@@ -29,12 +72,15 @@ function worldintw_custom_contact_columns_content($column, $post_id) {
 			echo get_the_excerpt();
 			break;
 		case 'email':
+			$email = get_post_meta( $post_id, '_worldintw_contact_email_key', true);
+			echo '<a href="mailto:'. $email . '">' . $email . '</a>';
 			break;
 		default:
 			break;
 	}
 }
 
+// Custom post column
 function worldintw_custom_contact_columns($column) {
 	$newcolumn = array(
 		'title' 	=> __('Full Name', 'worldintw'),
@@ -44,6 +90,7 @@ function worldintw_custom_contact_columns($column) {
 	return $newcolumn;
 }
 
+// Custom post type
 function worldintw_custom_post_type(){
 	/**
 	 * Registers a new post type
@@ -99,6 +146,10 @@ function worldintw_custom_post_type(){
 		)
 	);
 	register_post_type( 'contact-post-type', $args );
+	// register_post_type( $post_type, $args = array )
 }
+
+
+
 
 ?>
