@@ -36,12 +36,12 @@ add_action('admin_enqueue_scripts', 'worldintw_enqueue_admin_scripts');
 function load_front_end_scripts(){
 	wp_enqueue_style( 'bootstrap', get_template_directory_uri() . '/css/bootstrap.min.css', array(), '4.1.1', 'all' );
 	wp_enqueue_style( 'worldintw', get_template_directory_uri() . '/css/style.css', array(), '1.0.0', true );
+	wp_enqueue_style( 'googlefonts', 'https://fonts.googleapis.com/css?family=Roboto:400,500');
 
 	wp_deregister_script( 'jquery' );
 	wp_register_script( 'jquery', get_template_directory_uri() . '/js/jquery.min.js', false, '3.3.1', true );
 	wp_enqueue_script( 'jquery' );
 	wp_enqueue_script( 'bootstrap', get_template_directory_uri() . '/js/boostrap.min.js', array('jquery'), '4.1.1', true );
-	
 }
 add_action( 'wp_enqueue_scripts', 'load_front_end_scripts');
 
