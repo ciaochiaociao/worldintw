@@ -1,0 +1,109 @@
+/*
+  @package worldintw
+*/
+
+/*
+  Variables
+  ------------------------------------------------
+*/
+
+$icon-font : 'worldintw';
+$body-font : 'Helvetica Neue', 'Helvetica', Arial, Verdana, sans-serif;
+
+/* 
+  Font Icon 
+  ------------------------------------------------
+*/
+
+@font-face {
+  font-family: 'worldintw';
+  src:
+    url('../fonts/worldintw.ttf?bcelmd') format('truetype'),
+    url('../fonts/worldintw.woff?bcelmd') format('woff'),
+    url('../fonts/worldintw.svg?bcelmd#worldintw') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+.worldintw {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'worldintw' !important;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.worldintw-audio:before {
+  content: "\e900";
+}
+.worldintw-chevron-left:before {
+  content: "\e901";
+}
+.worldintw-chevron-right:before {
+  content: "\e902";
+}
+.worldintw-close:before {
+  content: "\e903";
+}
+.worldintw-comment:before {
+  content: "\e904";
+}
+.worldintw-link:before {
+  content: "\e905";
+}
+.worldintw-loading:before {
+  content: "\e906";
+}
+.worldintw-logo:before {
+  content: "\e907";
+}
+.worldintw-menu:before {
+  content: "\e908";
+}
+.worldintw-pencil:before {
+  content: "\e909";
+}
+.worldintw-pics:before {
+  content: "\e90a";
+}
+.worldintw-search:before {
+  content: "\e90b";
+}
+.worldintw-share:before {
+  content: "\e90c";
+}
+.worldintw-tag:before {
+  content: "\e90d";
+}
+.worldintw-video:before {
+  content: "\e90e";
+}
+
+
+/* 
+  Generic 
+  ------------------------------------------------
+*/
+body { font-family: $body-font; }
+
+.background-image { background-position: center center; background-size: cover; background-repeat: no-repeat; }
+
+.table { display: table; width: 100%; height: 100%; 
+  .table-cell { display: table-cell; width: 100%; height: 100%; vertical-align: middle; }
+}
+
+/* 
+  Header 
+  ------------------------------------------------
+*/
+.header-container { position: relative; display: block; height: 326px; text-shadow: 0 1px 2px rgba(0,0,0,0.4); }
+
+.site-title { color: #fff; margin: 0; font-size: 80px; }
+.site-description { font-size: 14px; color: #fff; margin-top: 1em; }
