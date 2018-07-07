@@ -33,10 +33,10 @@ function worldintw_enqueue_admin_scripts( $hook ) {
 add_action('admin_enqueue_scripts', 'worldintw_enqueue_admin_scripts');
 
 function load_front_end_scripts(){
-	wp_enqueue_style( 'worldintw', get_template_directory_uri() . '/css/style.css', array(), '1.0.0', true );
 	wp_enqueue_style( 'googlefonts', 'https://fonts.googleapis.com/css?family=Roboto:400,500');
 	// wp_enqueue_style( 'bootstrap', get_template_directory_uri() . '/css/bootstrap.min.css', array(), '4.1.1', 'all' );
 	wp_enqueue_style( 'bootstrap', get_template_directory_uri() . '/css/bootstrap.min-3.3.7.css', array(), '3.3.7', 'all' );
+	wp_enqueue_style( 'worldintw', get_template_directory_uri() . '/css/worldintw.css', array(), '1.0.0', 'all' );
 
 	wp_deregister_script( 'jquery' );
 	wp_register_script( 'jquery', get_template_directory_uri() . '/js/jquery.min.js', array(), '3.3.1', true );
