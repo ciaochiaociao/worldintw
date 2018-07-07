@@ -25,7 +25,6 @@ function worldintw_enqueue_admin_scripts( $hook ) {
 		wp_enqueue_media();
 
 	} else if ($hook == '%e8%ad%af%e4%b8%96%e7%95%8c%e5%a7%94%e5%93%a1%e6%9c%83_page_worldintw_css'){
-		error_log('Test');
 		wp_enqueue_script( 'ace', get_template_directory_uri() . '/js/ace/ace.js', array(), '1.3.3', true );
 		wp_enqueue_script( 'custom_css_section_js', get_template_directory_uri() . '/js/custom_css.js', array('jquery'), '1.0.0', true );
 		wp_enqueue_style( 'custom_css_section_css', get_template_directory_uri() . '/css/custom_css.css', array(), '1.0.0', 'all');
