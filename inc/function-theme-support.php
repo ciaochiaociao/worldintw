@@ -37,4 +37,23 @@ function worldintw_add_theme_support(){
 }
 add_action( 'after_setup_theme', 'worldintw_add_theme_support');
 
+function worldintw_custom_nav_menu () {
+	add_theme_support( 'menus' );
+	register_nav_menu( 'primary', 'Primay Navigation Menu' );
+}
+add_action( 'init', 'worldintw_custom_nav_menu' );
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ?>

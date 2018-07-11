@@ -10,6 +10,26 @@
 $icon-font : 'worldintw';
 $body-font : 'Helvetica Neue', 'Helvetica', Arial, Verdana, sans-serif;
 
+/*
+  Mixins
+  ------------------------------------------------
+*/
+@mixin animate ($attr, $time) {
+  -webkit-transition: $attr $time ease;
+  -moz-transition: $attr $time ease;
+  -ms-transition: $attr $time ease;
+  -o-transition: $attr $time ease;
+  transition: $attr $time ease;
+}
+
+@mixin transform( $val ) {
+  -webkit-tranform: $val;
+  -moz-tranform: $val;
+  -ms-transform: $val;
+  -o-transform: $val;
+  transform: $val;
+}
+
 /* 
   Font Icon 
   ------------------------------------------------
@@ -40,52 +60,7 @@ $body-font : 'Helvetica Neue', 'Helvetica', Arial, Verdana, sans-serif;
   -moz-osx-font-smoothing: grayscale;
 }
 
-.worldintw-audio:before {
-  content: "\e900";
-}
-.worldintw-chevron-left:before {
-  content: "\e901";
-}
-.worldintw-chevron-right:before {
-  content: "\e902";
-}
-.worldintw-close:before {
-  content: "\e903";
-}
-.worldintw-comment:before {
-  content: "\e904";
-}
-.worldintw-link:before {
-  content: "\e905";
-}
-.worldintw-loading:before {
-  content: "\e906";
-}
-.worldintw-logo:before {
-  content: "\e907";
-}
-.worldintw-menu:before {
-  content: "\e908";
-}
-.worldintw-pencil:before {
-  content: "\e909";
-}
-.worldintw-pics:before {
-  content: "\e90a";
-}
-.worldintw-search:before {
-  content: "\e90b";
-}
-.worldintw-share:before {
-  content: "\e90c";
-}
-.worldintw-tag:before {
-  content: "\e90d";
-}
-.worldintw-video:before {
-  content: "\e90e";
-}
-
+.worldintw-audio:before{content:"\e900";}.worldintw-chevron-left:before{content:"\e901";}.worldintw-chevron-right:before{content:"\e902";}.worldintw-close:before{content:"\e903";}.worldintw-comment:before{content:"\e904";}.worldintw-link:before{content:"\e905";}.worldintw-loading:before{content:"\e906";}.worldintw-logo:before{content:"\e907";}.worldintw-menu:before{content:"\e908";}.worldintw-pencil:before{content:"\e909";}.worldintw-pics:before{content:"\e90a";}.worldintw-search:before{content:"\e90b";}.worldintw-share:before{content:"\e90c";}.worldintw-tag:before{content:"\e90d";}.worldintw-video:before{content:"\e90e";}
 
 /* 
   Generic 
@@ -107,3 +82,51 @@ body { font-family: $body-font; }
 
 .site-title { color: #fff; margin: 0; font-size: 80px; }
 .site-description { font-size: 14px; color: #fff; margin-top: 1em; }
+
+.nav-container { position: absolute; left:0; bottom:0; right:0;}
+
+/* 
+  Navigation Menu
+  ------------------------------------------------
+*/
+.navbar-worldintw { min-height: auto; border: none; margin-bottom: 0; border-radius: 0; text-align: center; width: 100%; background: rgba(255, 255, 255, 0.1); border-top: 1px solid rgba(255, 255, 255, 0.1);
+  ul {  float: none;  }
+  li {  float: none; display: inline-block;
+    a {
+      text-transform: uppercase; color: white; font-size: 12px; letter-spacing: 0.05em; opacity: 0.7; @include animate(opacity, 250ms);
+      &:hover, &:visited, &:focus { opacity: 1; background: none; 
+        &:after { opacity: 1; @include transform(translateY(0px));} // animate bottom border
+      }
+      &:after { 
+        content:''; background: #fff; display: block; height: 2px;
+        opacity: 0; @include transform(translateY(7px)); @include animate(all, 200ms); // animate bottom border
+      }
+    }
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
